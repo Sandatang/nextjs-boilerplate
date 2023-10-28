@@ -1,25 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./style.module.css";
-import { Button } from "@/components";
+
+
 
 function Navbar() {
+
+  const [isWallet, setIsWallet] = useState(null);
+
+  const connectWallet = async () => {
+    const { solana } = window as any
+   
+    setIsWallet((await solana.connect()).publicKey.toString())
+    console.log(isWallet)
+  }
+
   return (
     <>
       <div className={style.toolbar}>
-        <h4>Logo</h4>
+        <h4>John Mark - MERN Practitioner</h4>
 
-        <div className={style.links_container}>
-          <p>Marketplace</p>
-          <p>Community</p>
-          <p>Events</p>
-        </div>
+        <button onClick={connectWallet} className='bg-blue-600/90 p-3 tracking-wider rounded-md hover:text-blue-600 hover:bg-blue-300'>
+          { isWallet  ? isWallet : "Connect wallet"}
+        </button>
 
-        <div className={style.links_container}>
-          <Button outlined>Sign In</Button>
-          <Button>Get Started</Button>
-        </div>
       </div>
-      <div className={style.divider}></div>
+
     </>
   );
 }
